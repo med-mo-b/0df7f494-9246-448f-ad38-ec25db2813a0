@@ -60,15 +60,17 @@ skill uninstall knowledge-retrieval
 
 ## CLI reference
 
-| Command | Purpose |
-| --- | --- |
-| `skill list [--scope repo\|user\|admin\|all] [--json]` | Discover and print installed skills. |
-| `skill show <name>` | Print a skill's `SKILL.md` to stdout. |
-| `skill install <source> [--scope user\|repo\|admin] [--ref <git-ref>] [--subdir <path>] [--force]` | Install from a local path or a git URL. |
-| `skill uninstall <name> [--scope user\|repo\|admin]` | Remove an installed skill. |
-| `skill run <name> [script] [-- ...args]` | Execute a script inside a skill. |
-| `skill search --query <q> [--path <dir>...] [--ext <csv>] [--limit <n>] [--provider lexical] [--json]` | Run the configured `SearchProvider`. |
-| `skill validate <path> [--json]` | Validate a skill folder against the agentskills.io spec. |
+
+| Command                                                                                                | Purpose                                                  |
+| ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| `skill list [--scope repo|user|admin|all] [--json]`                                                    | Discover and print installed skills.                     |
+| `skill show <name>`                                                                                    | Print a skill's `SKILL.md` to stdout.                    |
+| `skill install <source> [--scope user|repo|admin] [--ref <git-ref>] [--subdir <path>] [--force]`       | Install from a local path or a git URL.                  |
+| `skill uninstall <name> [--scope user|repo|admin]`                                                     | Remove an installed skill.                               |
+| `skill run <name> [script] [-- ...args]`                                                               | Execute a script inside a skill.                         |
+| `skill search --query <q> [--path <dir>...] [--ext <csv>] [--limit <n>] [--provider lexical] [--json]` | Run the configured `SearchProvider`.                     |
+| `skill validate <path> [--json]`                                                                       | Validate a skill folder against the agentskills.io spec. |
+
 
 `<source>` is treated as a git URL when it starts with `https://`, `ssh://`,
 `git@`, or ends with `.git`; otherwise it is treated as a local path.
@@ -77,11 +79,13 @@ skill uninstall knowledge-retrieval
 
 Skills are discovered from three locations, in priority order:
 
-| Scope | Path |
-| --- | --- |
-| `repo`  | `<cwd-or-ancestor>/.agents/skills` |
-| `user`  | `$HOME/.agents/skills` |
+
+| Scope   | Path                                                                        |
+| ------- | --------------------------------------------------------------------------- |
+| `repo`  | `<cwd-or-ancestor>/.agents/skills`                                          |
+| `user`  | `$HOME/.agents/skills`                                                      |
 | `admin` | `/etc/<subdir>/skills` (POSIX) or `%PROGRAMDATA%\<subdir>\skills` (Windows) |
+
 
 `skill install` defaults to `--scope user`, writing to
 `$HOME/.agents/skills/<name>`. For a repo-local skill (e.g. tied to one
@@ -164,9 +168,9 @@ index — fast file walk + score). To add a vector backend:
 
 1. Implement `EmbeddingsSearchProvider` in `src/core/search/`.
 2. Add a case in `src/core/search/providerFactory.ts` and an entry in
-   `ProviderName`.
+  `ProviderName`.
 3. Done. The skill, the CLI, and every other consumer are unchanged. Use
-   it via `skill search --provider embeddings`.
+  it via `skill search --provider embeddings`.
 
 ## Testing
 
@@ -199,13 +203,36 @@ skill-cli/
 │   │       ├── LexicalSearchProvider.ts
 │   │       └── providerFactory.ts
 │   ├── types/Skill.ts
-│   └── utils/                  # fs, git, logger
+│   └── utils/                  # filesystem, git, logger
 ├── skills/
 │   ├── knowledge-retrieval/
 │   └── brainstorming/
-└── tests/                      # vitest suites + fixtures
+└── tests/
+    ├── helpers.ts
+    ├── fixtures/               # sample skills + docs used by testsfs
+    ├── core/                   # mirrors src/core/
+    │   ├── SkillExecutor.test.ts
+    │   ├── SkillInstaller.git.test.ts
+    │   ├── SkillInstaller.local.test.ts
+    │   ├── SkillLoader.test.ts
+    │   ├── SkillManager.discover.test.ts
+    │   ├── SkillValidator.test.ts
+    │   └── search/
+    │       └── LexicalSearchProvider.test.ts
+    └── skills/                 # one file per bundled skill
+        ├── knowledge-retrieval.test.ts
+        └── brainstorming.test.ts
 ```
 
-## License
+### File-naming convention
 
-MIT
+One implicit rule, applied throughout `src/`:
+
+- `**PascalCase.ts**` — primary export is a class or type with the
+same name (`SkillManager`, `LexicalSearchProvider`, `Skill`).
+- `**camelCase.ts` / lowercase** — primary export is one or more
+free functions / a helper barrel (`locations.ts`, `providerFactory.ts`,
+`commands/install.ts`, `utils/filesystem.ts`).
+
+Test files mirror this: `tests/core/SkillManager.discover.test.ts`
+covers `src/core/SkillManager.ts`.
