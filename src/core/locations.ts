@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import type { SkillLocation, SkillScope } from '../types/Skill.js';
-import { isDirectory } from '../utils/fs.js';
+import { isDirectory } from '../utils/filesystem.js';
 
 /**
  * Conventional sub-path for repo and user scopes, per the Agent Skills spec.

@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { LexicalSearchProvider } from '../src/core/search/LexicalSearchProvider.js';
-import { FIXTURES_DIR } from './helpers.js';
+import { LexicalSearchProvider } from '../../../src/core/search/LexicalSearchProvider.js';
+import { FIXTURES_DIR } from '../../helpers.js';
 
 const DOCS = path.join(FIXTURES_DIR, 'docs');
 

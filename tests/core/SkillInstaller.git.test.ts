@@ -2,11 +2,11 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { SkillInstaller } from '../src/core/SkillInstaller.js';
-import type { GitClone } from '../src/utils/git.js';
-import { isFile } from '../src/utils/fs.js';
-import { InstallError, type SkillLocation } from '../src/types/Skill.js';
-import { cleanup, makeTempDir } from './helpers.js';
+import { SkillInstaller } from '../../src/core/SkillInstaller.js';
+import type { GitClone } from '../../src/utils/git.js';
+import { isFile } from '../../src/utils/filesystem.js';
+import { InstallError, type SkillLocation } from '../../src/types/Skill.js';
+import { cleanup, makeTempDir } from '../helpers.js';
 
 describe('SkillInstaller (git, stubbed)', () => {
   let tmp: string;

@@ -2,9 +2,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { SkillManager } from '../src/core/SkillManager.js';
-import type { SkillLocation } from '../src/types/Skill.js';
-import { cleanup, makeTempDir } from './helpers.js';
+import { SkillManager } from '../../src/core/SkillManager.js';
+import type { SkillLocation } from '../../src/types/Skill.js';
+import { cleanup, makeTempDir } from '../helpers.js';
 
 const SKILL_A = `---
 name: alpha-skill

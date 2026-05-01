@@ -1,15 +1,15 @@
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { SkillInstaller } from '../src/core/SkillInstaller.js';
-import { isFile } from '../src/utils/fs.js';
-import { InstallError, type SkillLocation } from '../src/types/Skill.js';
+import { SkillInstaller } from '../../src/core/SkillInstaller.js';
+import { isFile } from '../../src/utils/filesystem.js';
+import { InstallError, type SkillLocation } from '../../src/types/Skill.js';
 import {
   BUNDLED_SKILLS_DIR,
   cleanup,
   FIXTURES_DIR,
   makeTempDir,
-} from './helpers.js';
+} from '../helpers.js';
 
 describe('SkillInstaller (local)', () => {
   let tmp: string;

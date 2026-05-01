@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { SkillExecutor } from '../src/core/SkillExecutor.js';
-import { SkillLoader } from '../src/core/SkillLoader.js';
-import { FIXTURES_DIR } from './helpers.js';
+import { SkillExecutor } from '../../src/core/SkillExecutor.js';
+import { SkillLoader } from '../../src/core/SkillLoader.js';
+import { FIXTURES_DIR } from '../helpers.js';
 
 describe('SkillExecutor', () => {
   const loader = new SkillLoader();

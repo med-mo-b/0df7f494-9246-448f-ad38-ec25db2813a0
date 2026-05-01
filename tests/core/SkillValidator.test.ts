@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { SkillValidator } from '../src/core/SkillValidator.js';
-import type { Skill } from '../src/types/Skill.js';
+import { SkillValidator } from '../../src/core/SkillValidator.js';
+import type { Skill } from '../../src/types/Skill.js';
 
 const validator = new SkillValidator();
 

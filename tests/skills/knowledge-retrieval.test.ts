@@ -2,16 +2,16 @@ import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { SkillInstaller } from '../src/core/SkillInstaller.js';
-import { SkillManager } from '../src/core/SkillManager.js';
-import type { SkillLocation } from '../src/types/Skill.js';
+import { SkillInstaller } from '../../src/core/SkillInstaller.js';
+import { SkillManager } from '../../src/core/SkillManager.js';
+import type { SkillLocation } from '../../src/types/Skill.js';
 import {
   BUNDLED_SKILLS_DIR,
   cleanup,
   FIXTURES_DIR,
   REPO_ROOT,
   makeTempDir,
-} from './helpers.js';
+} from '../helpers.js';
 
 interface CliResult {
   exitCode: number;

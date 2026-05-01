@@ -8,7 +8,7 @@ import type {
   SkillScope,
   SkillScript,
 } from '../types/Skill.js';
-import { isDirectory, isFile, pathExists } from '../utils/fs.js';
+import { isDirectory, isFile, pathExists } from '../utils/filesystem.js';
 import { normalizeFrontmatter } from './SkillValidator.js';
 
 const SKILL_FILE = 'SKILL.md';

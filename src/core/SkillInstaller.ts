@@ -16,7 +16,7 @@ import {
   isFile,
   pathExists,
   removeDir,
-} from '../utils/fs.js';
+} from '../utils/filesystem.js';
 import { defaultGitClone, type GitClone } from '../utils/git.js';
 import { resolveLocation as defaultResolveLocation } from './locations.js';
 import { SkillLoader } from './SkillLoader.js';

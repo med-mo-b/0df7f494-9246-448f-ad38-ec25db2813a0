@@ -1,4 +1,7 @@
-import { promises as fs, constants as fsConstants } from 'node:fs';
+import {
+  promises as filesystem,
+  constants as filesystemConstants,
+} from 'node:fs';
 import path from 'node:path';
 
 const DEFAULT_IGNORE = new Set([
@@ -14,7 +17,7 @@ const DEFAULT_IGNORE = new Set([
 
 export async function pathExists(p: string): Promise<boolean> {
   try {
-    await fs.access(p, fsConstants.F_OK);
+    await filesystem.access(p, filesystemConstants.F_OK);
     return true;
   } catch {
     return false;
@@ -23,7 +26,7 @@ export async function pathExists(p: string): Promise<boolean> {
 
 export async function isDirectory(p: string): Promise<boolean> {
   try {
-    const stat = await fs.stat(p);
+    const stat = await filesystem.stat(p);
     return stat.isDirectory();
   } catch {
     return false;
@@ -32,7 +35,7 @@ export async function isDirectory(p: string): Promise<boolean> {
 
 export async function isFile(p: string): Promise<boolean> {
   try {
-    const stat = await fs.stat(p);
+    const stat = await filesystem.stat(p);
     return stat.isFile();
   } catch {
     return false;
@@ -40,7 +43,7 @@ export async function isFile(p: string): Promise<boolean> {
 }
 
 export async function ensureDir(dir: string): Promise<void> {
-  await fs.mkdir(dir, { recursive: true });
+  await filesystem.mkdir(dir, { recursive: true });
 }
 
 /**
@@ -53,7 +56,7 @@ export async function copyDir(
   extraIgnore: ReadonlySet<string> = new Set(),
 ): Promise<void> {
   await ensureDir(dest);
-  const entries = await fs.readdir(src, { withFileTypes: true });
+  const entries = await filesystem.readdir(src, { withFileTypes: true });
   for (const entry of entries) {
     if (DEFAULT_IGNORE.has(entry.name) || extraIgnore.has(entry.name)) continue;
     const from = path.join(src, entry.name);
@@ -61,21 +64,21 @@ export async function copyDir(
     if (entry.isDirectory()) {
       await copyDir(from, to, extraIgnore);
     } else if (entry.isSymbolicLink()) {
-      const target = await fs.readlink(from);
-      await fs.symlink(target, to).catch(async () => {
+      const target = await filesystem.readlink(from);
+      await filesystem.symlink(target, to).catch(async () => {
         // Fallback: read+write the resolved file. Symlinks on Windows often
         // need elevated privileges, so we degrade gracefully.
-        const data = await fs.readFile(from);
-        await fs.writeFile(to, data);
+        const data = await filesystem.readFile(from);
+        await filesystem.writeFile(to, data);
       });
     } else if (entry.isFile()) {
-      await fs.copyFile(from, to);
+      await filesystem.copyFile(from, to);
     }
   }
 }
 
 export async function removeDir(dir: string): Promise<void> {
-  await fs.rm(dir, { recursive: true, force: true });
+  await filesystem.rm(dir, { recursive: true, force: true });
 }
 
 export interface WalkOptions {
@@ -103,7 +106,7 @@ export async function* walkFiles(
     if (!dir) break;
     let entries;
     try {
-      entries = await fs.readdir(dir, { withFileTypes: true });
+      entries = await filesystem.readdir(dir, { withFileTypes: true });
     } catch {
       continue;
     }
@@ -129,9 +132,9 @@ export async function safeReadText(
   maxBytes = 2 * 1024 * 1024,
 ): Promise<string | null> {
   try {
-    const stat = await fs.stat(filePath);
+    const stat = await filesystem.stat(filePath);
     if (!stat.isFile() || stat.size > maxBytes) return null;
-    return await fs.readFile(filePath, 'utf8');
+    return await filesystem.readFile(filePath, 'utf8');
   } catch {
     return null;
   }

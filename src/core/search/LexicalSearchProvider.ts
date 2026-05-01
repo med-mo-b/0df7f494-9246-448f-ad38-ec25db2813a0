@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { safeReadText, walkFiles } from '../../utils/fs.js';
+import { safeReadText, walkFiles } from '../../utils/filesystem.js';
 import type {
   SearchHit,
   SearchProvider,

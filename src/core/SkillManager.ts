@@ -9,7 +9,7 @@ import type {
   SkillScope,
   ValidationResult,
 } from '../types/Skill.js';
-import { isDirectory } from '../utils/fs.js';
+import { isDirectory } from '../utils/filesystem.js';
 import { logger } from '../utils/logger.js';
 import { defaultLocations } from './locations.js';
 import { SkillExecutor, type ExecOptions } from './SkillExecutor.js';
